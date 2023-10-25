@@ -115,7 +115,7 @@ function main {
         .\notifications.ps1 $remote_host "Updating complete"
     }
 
-    elseif (($proc_status -eq 1) -and ($version -like "22.1.[0-3]*") -or ($version -like "22.0.*")) {
+    elseif (($proc_status -eq 1) -and (($version -like "22.1.[0-3]*") -or ($version -like "22.0.*"))) {
         
         .\notifications.ps1 $remote_host "Please, close the revit"
     }
