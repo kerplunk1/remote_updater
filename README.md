@@ -3,7 +3,7 @@
 
 ## Как установить
 Клонировать репозитрий
-```https://github.com/kerplunk1/remote_updater.git```
+```git clone https://github.com/kerplunk1/remote_updater.git```
 
 Либо скачать архивом.
 
