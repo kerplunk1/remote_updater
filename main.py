@@ -10,6 +10,8 @@ def navigate():
         print("1. Отправить уведомление")
         print("2. Обновить Revit 2022")
         print("3. Активировать MS Office")
+        print("4. Установить плагин BCF Manager")
+        print("5. Установить плагин ModPlus")
         print("0. Выход")
         print("-------------------------\n")
         section = int(input("Выберите номер нужного пункта: "))
@@ -41,6 +43,24 @@ def navigate():
             remote_host = input("Введите имя удаленного компьютера: ")
             manage.activate_office(remote_host)
             
+            time.sleep(3)
+            os.system('cls')
+
+        elif section == 4:
+            print("Установка плагина BCF Manager")
+            print("-------------------\n")
+            remote_host = input("Введите имя удаленного компьютера: ")
+            manage.bcf_install(remote_host)
+
+            time.sleep(3)
+            os.system('cls')
+
+        elif section == 5:
+            print("Установка плагина ModPlus")
+            print("-------------------\n")
+            remote_host = input("Введите имя удаленного компьютера: ")
+            manage.modplus_install(remote_host)
+
             time.sleep(3)
             os.system('cls')
 
