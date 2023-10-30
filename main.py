@@ -61,7 +61,6 @@ def navigate():
             remote_host = input("Введите имя удаленного компьютера: ")
             manage.modplus_install(remote_host)
 
-            time.sleep(3)
             os.system('cls')
 
         else:

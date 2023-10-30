@@ -45,11 +45,10 @@ function main {
 
         $copy = Invoke-Command -ComputerName $remote_host -ScriptBlock ${function:copy_files} -ArgumentList $cred
 
-        Write-Host -ForegroundColor Red "Инсталлятор скопирован, но запустить его не получается.`nОткроется Enter-PSsession, просто введите эту команду:"
-        Write-Host -ForegroundColor Magenta 'msiexec /i "C:\BCF Manager 6.0 build 12 Rvt2022.msi" /qn ; exit'
+        $install = Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process msiexec.exe -ArgumentList "/i `"C:\BCF Manager 6.0 build 12 Rvt2022.msi`" /qn /log `"C:\BCF_install_log.txt`"" -Wait}
 
+        .\notifications.ps1 $remote_host "Плагин BCF Manager установлен."
 
-        Enter-PSSession $remote_host
 
     }
     

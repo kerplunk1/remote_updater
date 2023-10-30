@@ -28,12 +28,12 @@ function copy_files {
 function install {
     param($user)
 
-    $instal_ldir = "C:\Program Files\ModPlus\"
+    $install_dir = "C:\Users\$user\AppData\Roaming\ModPlus"
 
     $conf_dir = "C:\Users\$user\AppData\Roaming\ModPlus Data\UserData\"
 
-    Start-Process msiexec -ArgumentList "/i", "C:\ModPlus_offline_23.10.25.msi", "INSTALLDIR=$install_dir","/qn" -Wait
-
+    Start-Process msiexec.exe -ArgumentList "/i `"C:\ModPlus_offline_23.10.25.msi`" INSTALLDIR=`"$install_dir`" /qn /log `"C:\ModPlus_install_log.txt`"" -Wait
+    
     New-Item -ItemType Directory -Path $conf_dir -Force
 
     New-Item -ItemType Directory -Path "C:\backup_REVIT" -Force
@@ -50,7 +50,7 @@ function create_shortcut {
 
     $WshShell = New-Object -comObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut("C:\Users\$user\Desktop\mpConfig.lnk")
-    $Shortcut.TargetPath = "C:\Program Files\ModPlus\mpConfig.exe"
+    $Shortcut.TargetPath = "C:\Users\$user\AppData\Roaming\ModPlus\mpConfig.exe"
     $Shortcut.Save()
 
     return 0
@@ -75,6 +75,11 @@ function main {
     $shortcut = Invoke-Command -ComputerName $remote_host -ScriptBlock ${function:create_shortcut} -ArgumentList $user
 
     .\notifications.ps1 $remote_host "Плагин ModPlus установлен, для работы необходимо один раз запустить ярлык mpConfig с рабочего стола и поставить галочку 'Поддерживаемые продукты - Revit 2022'"
+
+    Write-Host -ForegroundColor Yellow "Если после выполнения скрипта ярлык ModPlus не появился у пользователя на рабочем столе, `nвыполнить на удаленном компьютере деинсталляцию `"msiexec.exe /x `"C:\ModPlus_offline_23.10.25.msi`" /qn`" `nи заново запустить скрипт."
+
+    Write-Host -NoNewLine 'Нажмите любую клавишу чтобы выйти...';
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 }
 
 
