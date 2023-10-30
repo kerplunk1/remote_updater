@@ -12,6 +12,7 @@ def navigate():
         print("3. Активировать MS Office")
         print("4. Установить плагин BCF Manager")
         print("5. Установить плагин ModPlus")
+        print("6. Установить MS Office")
         print("0. Выход")
         print("-------------------------\n")
         section = int(input("Выберите номер нужного пункта: "))
@@ -61,6 +62,15 @@ def navigate():
             remote_host = input("Введите имя удаленного компьютера: ")
             manage.modplus_install(remote_host)
 
+            os.system('cls')
+
+        elif section == 6:
+            print("Установка MS Office")
+            print("-------------------\n")
+            remote_host = input("Введите имя удаленного компьютера: ")
+            manage.office_install(remote_host)
+
+            time.sleep(3)
             os.system('cls')
 
         else:

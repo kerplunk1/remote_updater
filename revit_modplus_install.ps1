@@ -60,7 +60,7 @@ function create_shortcut {
 function main {
     param ($remote_host)
 
-    $cred = Get-Credential
+    $cred = Get-Credential -Message "Credential are required for access to the \\srv-tex\revit file share"
     
     $copy = Invoke-Command -ComputerName $remote_host -ScriptBlock ${function:copy_files} -ArgumentList $cred
     
