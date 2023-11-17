@@ -13,6 +13,9 @@ function prepare_for_the_update {
     $dest_sp7 = "C:\RVTSP7.msp"
     $dest_sp8 = "C:\RVTSP8.msp"
 
+    $GenerativeDesign_source = "\\srv-tex.techno.local\revit\GenerativeDesignRevitInstaller.msi"
+    $GenerativeDesign_dest = "C:\GenerativeDesignRevitInstaller.msi"
+
     New-PSDrive -Credential $cred -Root "\\srv-tex.techno.local\revit" -PSProvider FileSystem -Name srv-tex
 
     if (Test-Path $app_path) {
@@ -29,6 +32,15 @@ function prepare_for_the_update {
 
             else {
                 Write-Host -ForegroundColor Green "The file SP8 has already been copied."
+            }
+
+            if (-not (Test-Path $GenerativeDesign_dest)) {
+                Write-Host -ForegroundColor Yellow "Copying a generative design file"
+                Start-BitsTransfer $GenerativeDesign_source "C:\" -DisplayName "Update to 22.1.4" -Description "Copying a generative design file"
+            }
+
+            else {
+                Write-Host -ForegroundColor Green "The file generative design has already been copied."
             }
         }
 
@@ -52,6 +64,15 @@ function prepare_for_the_update {
 
             else {
                 Write-Host -ForegroundColor Green "The file SP8 has already been copied."
+            }
+
+            if (-not (Test-Path $GenerativeDesign_dest)) {
+                Write-Host -ForegroundColor Yellow "Copying a generative design file"
+                Start-BitsTransfer $GenerativeDesign_source "C:\" -DisplayName "Update to 22.1.4" -Description "Copying a generative design file"
+            }
+
+            else {
+                Write-Host -ForegroundColor Green "The file generative design has already been copied."
             }
         }
 
@@ -97,10 +118,12 @@ function main {
         Write-Host -ForegroundColor Yellow "Processing..."
 
         .\notifications.ps1 $remote_host "Updating to 22.1.3"
-        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/p", "C:\RVTSP7.msp", "/qn" -Wait}
+        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "C:\RVTSP7.msp", "/qn" -Wait}
 
         .\notifications.ps1 $remote_host "Updating to 22.1.4"
-        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/p", "C:\RVTSP8.msp", "/qn" -Wait}
+        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "C:\RVTSP8.msp", "/qn" -Wait}
+
+        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "C:\GenerativeDesignRevitInstaller.msi", "/qn" -Wait}
 
         .\notifications.ps1 $remote_host "Updating complete"
     }
@@ -110,7 +133,9 @@ function main {
         Write-Host -ForegroundColor Yellow "Processing..."
         
         .\notifications.ps1 $remote_host "Updating to 22.1.4"
-        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/p", "C:\RVTSP8.msp", "/qn" -Wait}
+        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "C:\RVTSP8.msp", "/qn" -Wait}
+
+        Invoke-Command -ComputerName $remote_host -ScriptBlock {Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "C:\GenerativeDesignRevitInstaller.msi", "/qn" -Wait}
 
         .\notifications.ps1 $remote_host "Updating complete"
     }
@@ -124,3 +149,6 @@ function main {
 
 
 main -remote_host $remote_host
+
+
+# (Get-ItemProperty HKLM:\SOFTWARE\Autodesk\AecGenerativeDesign\* | Select-Object Version).Version

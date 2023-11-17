@@ -23,6 +23,9 @@ def modplus_install(hostname):
 def office_install(hostname):
     subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', 'office_inst.ps1', hostname])
 
+def revit_helper_install(hostname):
+    subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', 'revit_helper_install.ps1', hostname])
+
 
 if __name__ == "__main__":
     print("You need to run the 'main.py' file")

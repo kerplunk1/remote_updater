@@ -13,6 +13,7 @@ def navigate():
         print("4. Установить плагин BCF Manager")
         print("5. Установить плагин ModPlus")
         print("6. Установить MS Office")
+        print("7. Установить плагин RevitHelper")
         print("0. Выход")
         print("-------------------------\n")
         section = int(input("Выберите номер нужного пункта: "))
@@ -69,6 +70,15 @@ def navigate():
             print("-------------------\n")
             remote_host = input("Введите имя удаленного компьютера: ")
             manage.office_install(remote_host)
+
+            time.sleep(3)
+            os.system('cls')
+
+        elif section == 7:
+            print("Установка плагина RevitHelper")
+            print("-------------------\n")
+            remote_host = input("Введите имя удаленного компьютера: ")
+            manage.revit_helper_install(remote_host)
 
             time.sleep(3)
             os.system('cls')
